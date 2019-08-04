@@ -1,6 +1,8 @@
 package com.kobby.travelmantics;
 
-public class TravelDeal {
+import java.io.Serializable;
+
+public class TravelDeal implements Serializable {
     private String id;
     private String aTitle;
     private String aPrice;
@@ -14,6 +16,10 @@ public class TravelDeal {
         this.aPrice = price;
         this.aDescription = description;
         this.aImageUrl = imageUrl;
+    }
+
+    public TravelDeal() {
+
     }
 
     public String getImageUrl() {
