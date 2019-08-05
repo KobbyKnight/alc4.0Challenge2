@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,13 +32,27 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        String a = FirebaseUtil.isAdmin?"TRUE":"false";
+        Log.d("ListActivity Admin Menu",a);
+    }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem insertMenu = menu.findItem(R.id.insert_menu);
+        if (FirebaseUtil.isAdmin) {
+            insertMenu.setVisible(true);
+        }else{
+            insertMenu.setVisible(false);
+        }
+
+        return true;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.list_activity_menu,menu);
+
         return true;
     }
 
@@ -88,5 +103,9 @@ public class ListActivity extends AppCompatActivity {
         rvDeals.setLayoutManager(dealsLayoutManager);
 
         FirebaseUtil.attachListener();
+    }
+
+    public void showMenu(){
+        invalidateOptionsMenu();
     }
 }

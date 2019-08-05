@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -26,6 +28,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
     private FirebaseDatabase aFirebaseDatabase;
     private DatabaseReference aDatabaseReference;
     private ChildEventListener aChildEventListener;
+   ImageView imageDeal;
 
     public DealAdapter() {
 //        FirebaseUtil.FirebaseRef("travelDeals");
@@ -96,6 +99,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
             tvTitle = itemView.findViewById(R.id.tv_title);
             tvDesc = itemView.findViewById(R.id.tv_desc);
             tvPrice = itemView.findViewById(R.id.tv_price);
+            imageDeal =  itemView.findViewById(R.id.img_deal);
             itemView.setOnClickListener(this);
 
         }
@@ -104,6 +108,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
             tvTitle.setText(deal.getTitle());
             tvDesc.setText(deal.getDescription());
             tvPrice.setText(deal.getPrice());
+            showImage(deal.getImageUrl());
         }
 
         @Override
@@ -114,6 +119,16 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
             //intent.putExtra("Deal", (Parcelable) selectedDeal);
             intent.putExtra("Deal",selectedDeal);
             view.getContext().startActivity(intent);
+        }
+
+        private void showImage(String url){
+            if(url != null && !url.isEmpty()){
+                Picasso.get()
+                        .load(url)
+                        .resize(80,80)
+                        .centerCrop()
+                        .into(imageDeal);
+            }
         }
     }
 }
